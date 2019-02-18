@@ -23,15 +23,20 @@ class LoginPage extends PureComponent<Props> {
   };
 
   render() {
-    return <LoginForm />;
+    return (
+      <LoginForm
+        loginRequestState={this.props.loginRequestState}
+        login={this.login}
+      />
+    );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps: StateProps = state => ({
   loginRequestState: selectRequestObject(state, LOGIN, ''),
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps: DispatchProps = dispatch => ({
   sendRequestAwait: (key, id, params) =>
     dispatch(sendRequestAwait(key, id, params)),
 });

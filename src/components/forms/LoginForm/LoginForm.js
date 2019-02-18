@@ -1,22 +1,12 @@
 import React, { PureComponent } from 'react';
 import { Formik } from 'formik';
-import { connect } from 'react-redux';
-
-import { sendRequestAwait } from '../../../redux/request/request.action';
-import { LOGIN } from '../../../redux/request/request.constants';
-import { selectRequestObject } from '../../../redux/request/request.selector';
-import { RequestObject, FormProps } from '../../../redux/util/types';
+import { RequestObject } from '../../../redux/util/types';
 import './styles.css';
 
-type StateProps = {
+type Props = {
   loginRequestState: RequestObject,
+  login: ({ email: string, password: string }) => void,
 };
-
-type DispatchProps = {
-  loginRequestState: RequestObject,
-};
-
-type Props = StateProps & FormProps;
 
 class LoginForm extends PureComponent<Props> {
   render() {
@@ -38,7 +28,7 @@ class LoginForm extends PureComponent<Props> {
         }}
         onSubmit={values => {
           const { email, password } = values;
-          this.props.sendRequestAwait(LOGIN, '', {
+          this.props.login({
             email,
             password,
           });
@@ -80,7 +70,7 @@ class LoginForm extends PureComponent<Props> {
               Lets Go
             </button>
 
-            {this.props.loginRequestState.sending && <div className="loader" />}
+            {this.props.loginRequestState.sending && <div id="loader" />}
           </form>
         )}
       />
@@ -88,16 +78,4 @@ class LoginForm extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps: StateProps = state => ({
-  loginRequestState: selectRequestObject(state),
-});
-
-const mapDispatchToProps = dispatch => ({
-  sendRequestAwait: (key: string, id: string, params: Object) =>
-    dispatch(sendRequestAwait(key, id, params)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(LoginForm);
+export default LoginForm;
