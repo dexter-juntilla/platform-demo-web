@@ -9,9 +9,8 @@ import {
   sendRequestLatest,
 } from './request/request.action';
 import defaultRequestSaga from './request/request.saga';
-import { FETCH_SAMPLE_DATA } from './request/request.constants';
+import { FETCH_SAMPLE_DATA, LOGIN } from './request/request.constants';
 import { fetchDemoData } from './demo/demo.saga';
-import { LOG_IN } from './auth/auth.action';
 import { login } from './auth/auth.saga';
 
 import { debounceTimeoutSeconds } from '../config/settings';
@@ -20,6 +19,9 @@ function* sendRequest(action: Object) {
   switch (action.payload.key) {
     case FETCH_SAMPLE_DATA:
       yield fork(fetchDemoData, action);
+      break;
+    case LOGIN:
+      yield fork(login, action);
       break;
     default:
       yield fork(defaultRequestSaga, action);
@@ -37,5 +39,4 @@ export default function* rootSaga(): Generator<void, void, void> {
   yield takeEvery(SEND_REQUEST, sendRequest);
   yield takeLatest(SEND_REQUEST_LATEST, sendRequest);
   yield takeLeadingByPayload(SEND_REQUEST_AWAIT, sendRequest);
-  yield takeLeading(LOG_IN, login);
 }

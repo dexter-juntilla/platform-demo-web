@@ -1,37 +1,26 @@
-import { put } from 'redux-saga/effects';
-import axios from 'axios';
+import { delay } from 'redux-saga';
+import { put, call } from 'redux-saga/effects';
 
-import { loginSuccess, loginFailed } from './auth.action';
+import { loginSuccess } from './auth.action';
+import { requestComplete, requestError } from '../request/request.action';
 
 export function* login(action: Object): Generator<*, *, *> {
+  const {
+    key,
+    id,
+    params: { email, password },
+  } = action.payload;
+
   try {
-    const { email, password } = action.payload;
-    const response = yield axios
-      .post(
-        'https://us-central1-ryoaki-api-server.cloudfunctions.net/ryoakiApp/api/v1/users/login',
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          email,
-          password,
-        },
-      )
-      .then(apiResponse => apiResponse);
+    yield call(delay, 2000);
 
-    const {
-      data: { token, signInError },
-    } = response;
-
-    if (token) {
-      yield put(loginSuccess(token));
-    } else if (signInError) {
-      yield put(loginFailed(signInError));
+    if (email && password) {
+      yield put(loginSuccess('random_stuff'));
+      yield put(requestComplete(key, id));
     } else {
-      yield put(loginFailed('Failed to login'));
+      yield put(requestError(key, id, 'Error'));
     }
-    console.log(token);
   } catch (err) {
-    yield put(loginFailed(JSON.stringify(err)));
+    yield put(requestError(key, id, err));
   }
 }

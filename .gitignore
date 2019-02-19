@@ -4,3 +4,4 @@ dist/
 .firebase/
 public/
 coverage/
+src/config/auth.js
