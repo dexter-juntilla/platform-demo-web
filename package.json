@@ -9,7 +9,6 @@
     "deploy-dev": "firebase use my-project-dev && NODE_ENV=development webpack && firebase deploy",
     "deploy-prod": "firebase use my-project-prod && NODE_ENV=production webpack && firebase deploy",
     "test": "jest --coverage",
-    "flow:check": "flow check ./src/",
     "flow": "flow focus-check",
     "lint": "eslint",
     "eslint": "eslint --fix",
