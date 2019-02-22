@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Route, Link, Redirect, withRouter } from 'react-router-dom';
 
 import type { ActionDispatcher, GlobalState } from '../../redux/util/types';
-import { LoginPage } from '../LoginPage';
+import { LoginPage } from '../loginPage';
 import { logOut } from '../../redux/auth/auth.action';
 import '../../sass/App.scss';
 

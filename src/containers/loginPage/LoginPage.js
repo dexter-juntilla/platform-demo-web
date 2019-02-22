@@ -12,7 +12,7 @@ import type {
   RequestObject,
 } from '../../redux/util/types';
 import { LOGIN } from '../../redux/request/request.constants';
-import { LoginForm } from '../../components/forms/LoginForm';
+import { LoginForm } from '../../components/forms';
 
 type StateProps = {
   loginRequestState: RequestObject,
