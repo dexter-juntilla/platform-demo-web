@@ -14,5 +14,5 @@ const config = {
 
 export default {
   ...config.default,
-  ...config[process.env.NODE_ENV],
+  ...config[process.env.NODE_ENV || 'development'],
 };

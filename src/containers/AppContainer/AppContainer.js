@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route, Link, Redirect, withRouter } from 'react-router-dom';
 
-import { Action } from '../../redux/util/types';
+import type { ActionDispatcher, GlobalState } from '../../redux/util/types';
 import { LoginPage } from '../LoginPage';
 import { logOut } from '../../redux/auth/auth.action';
 import '../../sass/App.scss';
@@ -12,14 +12,14 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  logout: Action,
+  logout: ActionDispatcher,
 };
 
 type Props = StateProps & DispatchProps;
 
 const Public = () => <h3>Public</h3>;
 
-const Protected = (props: { logout: Function }) => (
+const Protected = (props: { logout: ActionDispatcher }) => (
   <div>
     <h3>Protected</h3>
     <button type="button" onClick={props.logout}>
@@ -43,7 +43,7 @@ class App extends Component<Props> {
     );
   };
 
-  protectedRoute = props => {
+  protectedRoute = (props: { location: any }) => {
     if (this.props.isAuthenticated === true) {
       return <Protected logout={this.props.logout} />;
     }
@@ -79,11 +79,11 @@ class App extends Component<Props> {
   }
 }
 
-const mapStateToProps: StateProps = state => ({
+const mapStateToProps: GlobalState => StateProps = state => ({
   isAuthenticated: state.authStore.isAuthenticated,
 });
 
-const mapDispatchToProps: DispatchProps = dispatch => ({
+const mapDispatchToProps: ActionDispatcher => DispatchProps = dispatch => ({
   logout: () => dispatch(logOut()),
 });
 

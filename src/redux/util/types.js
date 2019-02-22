@@ -1,6 +1,14 @@
+export type GlobalState = {
+  authStore: Object,
+  demoStore: Object,
+  requestStore: Object,
+};
+
 export type Action = { type: string, payload?: Object };
 
 export type ActionCreator = (params?: any) => Action;
+
+export type ActionDispatcher = Action => Function;
 
 export type RequestObject = {
   sending: boolean,

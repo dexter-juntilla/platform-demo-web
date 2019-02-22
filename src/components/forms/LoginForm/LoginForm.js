@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
 import { Formik } from 'formik';
-import { RequestObject } from '../../../redux/util/types';
+import type { RequestObject } from '../../../redux/util/types';
 import './styles.css';
 
 type Props = {
-  loginRequestState: RequestObject,
-  login: (email: string, password: string) => void,
   dismissError: () => void,
+  login: (email: string, password: string) => void,
+  loginRequestState: RequestObject,
 };
 
 class LoginForm extends PureComponent<Props> {
