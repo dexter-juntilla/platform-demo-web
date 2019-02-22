@@ -6,7 +6,11 @@ import {
   dismissResult,
 } from '../../redux/request/request.action';
 import { selectRequestObject } from '../../redux/request/request.selector';
-import type { ActionCreator, RequestObject } from '../../redux/util/types';
+import type {
+  ActionDispatcher,
+  GlobalState,
+  RequestObject,
+} from '../../redux/util/types';
 import { LOGIN } from '../../redux/request/request.constants';
 import { LoginForm } from '../../components/forms/LoginForm';
 
@@ -15,8 +19,12 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  sendRequestAwait: ActionCreator,
-  dismissResult: ActionCreator,
+  sendRequestAwait: (
+    key: string,
+    id: string,
+    params: Object,
+  ) => ActionDispatcher,
+  dismissResult: (key: string, id: string) => ActionDispatcher,
 };
 
 type Props = StateProps & DispatchProps;
@@ -41,12 +49,12 @@ class LoginPage extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps: StateProps = state => ({
+const mapStateToProps: GlobalState => StateProps = state => ({
   loginRequestState: selectRequestObject(state, LOGIN, ''),
 });
 
-const mapDispatchToProps: DispatchProps = dispatch => ({
-  sendRequestAwait: (key, id, params) =>
+const mapDispatchToProps: ActionDispatcher => DispatchProps = dispatch => ({
+  sendRequestAwait: (key: string, id: string, params: Object) =>
     dispatch(sendRequestAwait(key, id, params)),
   dismissResult: (key, id) => dispatch(dismissResult(key, id)),
 });
