@@ -1,7 +1,7 @@
 import { delay } from 'redux-saga';
 import { call, put, race, all } from 'redux-saga/effects';
 
-import { get } from '../../modules/database.infrastructure';
+import Api from '../../modules/Api';
 import { fetchDemoResponse } from './demo.action';
 import { timeoutSeconds } from '../../config/settings';
 import { requestError, requestComplete } from '../request/request.action';
@@ -9,7 +9,7 @@ import { requestError, requestComplete } from '../request/request.action';
 export function* fetchDemoData(action: Object): Generator<*, *, *> {
   try {
     const { response, timeout } = yield race({
-      response: call(get, 'cars', action.payload.params || {}),
+      response: call(Api.get, 'cars', action.payload.params || {}),
       timeout: call(delay, timeoutSeconds * 1000),
       // cancelled: call(shouldCancel, action),
     });
@@ -36,5 +36,16 @@ export function* fetchDemoData(action: Object): Generator<*, *, *> {
     }
   } catch (err) {
     yield put(requestError(action.payload.key, action.payload.id, err));
+  }
+}
+
+export function* createCar(action: Object): Generator<*, *, *> {
+  try {
+    const { brand, color } = action.payload.params;
+
+    const response = yield call(Api.post, 'car', { brand, color });
+    yield console.log(response);
+  } catch (err) {
+    yield console.log(err);
   }
 }

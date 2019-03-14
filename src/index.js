@@ -5,8 +5,8 @@ import { Provider } from 'react-redux';
 import { HashRouter } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 
-import { store, persistor } from './modules/redux/redux';
-import { AppContainer } from './containers/AppContainer';
+import { store, persistor } from './modules/reduxProvider';
+import { AppContainer } from './containers/appContainer';
 
 // import 'primereact/resources/themes/nova-light/theme.css';
 // import 'primereact/resources/primereact.min.css';

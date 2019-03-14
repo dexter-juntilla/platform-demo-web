@@ -1,6 +1,6 @@
 import { delay } from 'redux-saga';
 import { takeEvery, takeLatest, fork, put, call } from 'redux-saga/effects';
-import { takeLeading, takeLeadingByPayload } from './util/effects';
+import { takeLeadingByPayload } from './util/effects';
 import {
   DEBOUNCE_REQUEST,
   SEND_REQUEST,
@@ -9,9 +9,14 @@ import {
   sendRequestLatest,
 } from './request/request.action';
 import defaultRequestSaga from './request/request.saga';
-import { FETCH_SAMPLE_DATA, LOGIN } from './request/request.constants';
-import { fetchDemoData } from './demo/demo.saga';
-import { login } from './auth/auth.saga';
+import FirebaseClient from '../modules/FirebaseClient';
+import {
+  FETCH_SAMPLE_DATA,
+  LOGIN,
+  CREATE_CAR,
+} from './request/request.constants';
+import { fetchDemoData, createCar } from './demo/demo.saga';
+import { login, authenticationListener } from './auth/auth.saga';
 
 import { debounceTimeoutSeconds } from '../config/settings';
 
@@ -22,6 +27,9 @@ function* sendRequest(action: Object) {
       break;
     case LOGIN:
       yield fork(login, action);
+      break;
+    case CREATE_CAR:
+      yield fork(createCar, action);
       break;
     default:
       yield fork(defaultRequestSaga, action);
@@ -34,9 +42,11 @@ function* dispatchRequest(action: Object) {
   yield put(sendRequestLatest(key, id, params, successAction, failureAction));
 }
 
-export default function* rootSaga(): Generator<void, void, void> {
+export default function* rootSaga(): Generator<*, *, *> {
+  yield FirebaseClient.init();
   yield takeLatest(DEBOUNCE_REQUEST, dispatchRequest);
   yield takeEvery(SEND_REQUEST, sendRequest);
   yield takeLatest(SEND_REQUEST_LATEST, sendRequest);
   yield takeLeadingByPayload(SEND_REQUEST_AWAIT, sendRequest);
+  yield authenticationListener();
 }

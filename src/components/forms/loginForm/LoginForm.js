@@ -14,7 +14,10 @@ class LoginForm extends PureComponent<Props> {
     return (
       <div>
         <Formik
-          initialValues={{ email: '', password: '' }}
+          initialValues={{
+            email: '',
+            password: '',
+          }}
           validate={values => {
             const errors = {};
 
@@ -73,7 +76,7 @@ class LoginForm extends PureComponent<Props> {
                 props.touched.password &&
                 props.errors.password}
               <button
-                type="button"
+                type="submit"
                 onClick={props.handleSubmit}
                 className="login-button"
               >

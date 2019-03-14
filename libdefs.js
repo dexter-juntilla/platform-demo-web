@@ -49,3 +49,21 @@ declare module 'mini-css-extract-plugin' {
 declare module 'html-webpack-plugin' {
   declare module.exports: any;
 }
+declare module 'primereact/inputtext' {
+  declare module.exports: any;
+}
+declare module 'primereact/datatable' {
+  declare module.exports: any;
+}
+declare module 'primereact/dropdown' {
+  declare module.exports: any;
+}
+declare module 'primereact/column' {
+  declare module.exports: any;
+}
+declare module 'firebase/app' {
+  declare module.exports: any;
+}
+declare module 'firebase/auth' {
+  declare module.exports: any;
+}

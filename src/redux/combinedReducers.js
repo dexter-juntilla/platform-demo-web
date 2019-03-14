@@ -9,7 +9,7 @@ import demoReducer from './demo/demo.reducer';
 const authPersistConfig = {
   key: 'authStore',
   storage: sessionStorage,
-  whitelist: ['authenticated', 'token'],
+  whitelist: ['isAuthenticated', 'token'],
 };
 
 const state: GlobalState = {

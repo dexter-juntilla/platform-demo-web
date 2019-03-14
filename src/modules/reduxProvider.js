@@ -3,8 +3,8 @@ import sessionStorage from 'redux-persist/es/storage/session';
 import { createLogger } from 'redux-logger';
 import { applyMiddleware, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import rootReducer from '../../redux/combinedReducers';
-import rootSaga from '../../redux/rootSaga';
+import rootReducer from '../redux/combinedReducers';
+import rootSaga from '../redux/rootSaga';
 
 const logger = createLogger({
   // predicate, // if specified this function will be called before each action is processed with this middleware.
@@ -30,6 +30,7 @@ const logger = createLogger({
 const persistConfig = {
   key: 'primary',
   storage: sessionStorage,
+  whitelist: [],
 };
 
 const reducers = persistCombineReducers(persistConfig, rootReducer);
